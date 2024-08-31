@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	_ "github.com/lib/pq"
 )
 
 type Book struct {
@@ -14,7 +15,7 @@ type Database struct {
 }
 
 func NewDatabase() *Database {
-	conn, err := sql.Open("postgres", "postgresql://postgres@localhost/books?sslmode=disable")
+	conn, err := sql.Open("pq", "postgres://admin:admin@localhost:5432/library?sslmode=disable")
 	if err != nil {
 		return nil
 	}
