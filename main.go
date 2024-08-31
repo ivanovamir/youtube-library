@@ -20,7 +20,7 @@ func main() {
 
 func InitRoutes(r *http.ServeMux, pgsql *db.Database) {
 	r.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+		w.Write([]byte("pong\n"))
 	})
 
 	r.HandleFunc("/create", func(w http.ResponseWriter, r *http.Request) {
@@ -32,10 +32,12 @@ func InitRoutes(r *http.ServeMux, pgsql *db.Database) {
 		err := json.NewDecoder(r.Body).Decode(&newBook)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
 			return
 		}
 		if err = pgsql.CreateBook(newBook.Name); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
 			return
 		}
 		w.WriteHeader(http.StatusOK)
@@ -50,12 +52,14 @@ func InitRoutes(r *http.ServeMux, pgsql *db.Database) {
 		books, err := pgsql.GetAllBooks()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 			return
 		}
 
 		response, err := json.Marshal(books)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 			return
 		}
 		w.WriteHeader(http.StatusOK)
