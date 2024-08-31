@@ -1,0 +1,20 @@
+version: "3.9"
+name: library
+services:
+  postgres:
+    container_name: library_postgres
+    image: postgres:12
+    restart: always
+    environment:
+      PGDEBUG: true
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: library
+      PGSSLMODE: disable
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 9912:5432
+
+volumes:
+  postgres-volume:
