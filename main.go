@@ -62,6 +62,7 @@ func InitRoutes(r *http.ServeMux, pgsql *db.Database) {
 			w.Write([]byte(err.Error()))
 			return
 		}
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(response)
 	})
