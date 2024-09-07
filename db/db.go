@@ -33,7 +33,7 @@ func (p *Database) GetAllBooks() ([]Book, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var books []Book
+	books := make([]Book, 0)
 	for rows.Next() {
 		var book Book
 		if err = rows.Scan(&book.ID, &book.Name); err != nil {
