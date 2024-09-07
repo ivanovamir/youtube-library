@@ -36,7 +36,7 @@ func (p *Database) GetAllBooks() ([]Book, error) {
 	var books []Book
 	for rows.Next() {
 		var book Book
-		if err := rows.Scan(&book.ID, &book.Name); err != nil {
+		if err = rows.Scan(&book.ID, &book.Name); err != nil {
 			return nil, err
 		}
 		books = append(books, book)

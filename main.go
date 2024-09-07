@@ -15,7 +15,9 @@ func main() {
 	r := http.NewServeMux()
 
 	InitRoutes(r, db)
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		panic(err)
+	}
 }
 
 func InitRoutes(r *http.ServeMux, pgsql *db.Database) {
